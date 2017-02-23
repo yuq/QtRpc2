@@ -180,7 +180,7 @@ void ClientProtocolTcp::connected()
 	}
 	else
 	{
-		qCritical(qPrintable(QString("Error: Tcp does not support protocol: %1").arg(url().scheme())));
+		qCritical() << QString("Error: Tcp does not support protocol: %1").arg(url().scheme());
 		emit returnReceived(Message(connectId(), ReturnValue(1, QString("Error: Tcp does not support protocol: %1").arg(url().scheme()))));
 	}
 }

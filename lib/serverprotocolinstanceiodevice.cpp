@@ -140,7 +140,7 @@ void ServerProtocolInstanceIODevicePrivate::readyRead()
 		buffer.append(buff);
 		if (i < 0)
 		{
-			qCritical(qPrintable(QString("Oh snap! An error occured while reading from the network!" + device->errorString())));
+			qCritical() << QString("Oh snap! An error occured while reading from the network!" + device->errorString());
 			disconnect();
 			return;
 		}

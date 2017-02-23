@@ -34,6 +34,7 @@
 
 #include <QRegExp>
 #include <QDebug>
+#include <QDataStream>
 
 using namespace QtRpc;
 

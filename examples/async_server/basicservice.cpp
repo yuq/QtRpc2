@@ -32,6 +32,9 @@
 #include <Windows.h>
 #define sleep(x) Sleep(x * 1000);
 #endif
+#ifdef Q_OS_LINUX
+#include <unistd.h>
+#endif
 
 //This is run after a client connects, but before authentication takes place.
 //You can do initializtion here, but do nothing that requires authentication.

@@ -61,6 +61,7 @@
 #include <QUrl>
 #include <QThread>
 #include <QScopedPointer>
+#include <QSharedPointer>
 #include <Message>
 #include <authtoken.h>
 

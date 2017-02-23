@@ -39,6 +39,9 @@
 #include <QFile>
 #include <QStringList>
 #include <errno.h>
+#ifdef Q_OS_LINUX
+#include <unistd.h>
+#endif
 
 namespace QtRpc
 {
@@ -93,29 +96,29 @@ void ServerProtocolListenerBase::prepareInstance(ServerProtocolInstanceBase* ins
 
 			argv[0] = new char[args.at(0).size()+1];
 			memcpy(argv[0], qPrintable(args.at(0)), args.at(0).size());
-			argv[0][args.at(0).size()] = NULL;
+			argv[0][args.at(0).size()] = '\0';
 
 			QString argv1 = "FORK_PROCESS";
 			argv[1] = new char[argv1.size()+1];
 			memcpy(argv[1], qPrintable(argv1), argv1.size());
-			argv[1][argv1.size()] = NULL;
+			argv[1][argv1.size()] = '\0';
 
 			QString fd = QString("%1").arg(dup(instance->getProperty("descriptor").toInt()));
 			argv[2] = new char[fd.size()+1];
 			memcpy(argv[2], qPrintable(fd), fd.size());
-			argv[2][fd.size()] = NULL;
+			argv[2][fd.size()] = '\0';
 
 			QString protocol = "tcp";
 			argv[3] = new char[protocol.size()+1];
 			memcpy(argv[3], qPrintable(protocol), protocol.size());
-			argv[3][protocol.size()] = NULL;
+			argv[3][protocol.size()] = '\0';
 
 			execvp(qPrintable(args.at(0)), argv);
 			QFile file("/tmp/qtrpc_failure");
 			file.open(QFile::WriteOnly | QFile::Truncate);
 			file.write(qPrintable(QString("Failed to execv! %1 %2").arg(strerror(errno)).arg(errno)));
 			file.close();
-			qFatal(strerror(errno));
+			qFatal("%s", strerror(errno));
 		}
 		close(instance->getProperty("descriptor").toInt());
 		return;
