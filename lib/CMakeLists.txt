@@ -185,3 +185,13 @@ INSTALL(TARGETS qtrpc2
 ENDIF(APPLE)
 
 INSTALL_HEADERS("qtrpc2/")
+
+IF(UNIX)
+include(FindPkgConfig QUIET)
+if(PKG_CONFIG_FOUND)
+	# Produce a pkg-config file for linking against the shared lib
+	configure_file("libqtrpc2.pc.in" "libqtrpc2.pc" @ONLY)
+	install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libqtrpc2.pc"
+		DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig")
+endif()
+ENDIF(UNIX)
